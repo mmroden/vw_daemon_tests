@@ -20,7 +20,6 @@ If you choose to run `make check_aws` instead, a vagrant instance will be create
  * An AWS account
  * A working installation of the `vagrant-aws` plugin for vagrant.  The current best version is 0.5.0; more recent versions introduced show-stopping rsync bugs.  Installing an old version of the `vagrant-aws` plugin can be done through invoking
           vagrant plugin install vagrant-aws --plugin-version 0.5.0
-
   * Appropriately configured aws security groups that leave the daemon port open.  We've called these groups `endpoint` for the daemon port and `vagrant-dev` for the ssh port
   * These environment variables must be set to the appropriate values
      - `AWS_ACCESS_KEY_ID`

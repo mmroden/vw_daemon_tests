@@ -1,0 +1,1 @@
+vw --daemon --port 26542

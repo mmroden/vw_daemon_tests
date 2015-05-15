@@ -7,10 +7,9 @@ VAGRANT_TEST_MODEL="/vagrant/model_test.vw"
 
 
 def start_vw(call_string):
-    sleep(2)
     args = ['vagrant', 'ssh', '--', call_string]
     p =subprocess.Popen(args)
-    sleep(10)  # will get connection reset errors if vw isn't allowed to start up fully
+    sleep(5)  # will get connection reset errors if vw isn't allowed to start up fully
 
 
 def stop_vw():
@@ -53,4 +52,3 @@ def after_scenario(context, scenario):
 
 def after_all(context):
     start_vw("/vagrant/start_vw.sh")  # so that vw is running when tests are done
-

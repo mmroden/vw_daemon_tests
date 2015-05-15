@@ -10,7 +10,7 @@ def step_impl(context):
 
 @when(u'a save command is sent')
 def step_impl(context):
-    context.sock.sendall("save\n")
+    context.sock.send("save\n")
 
 
 @then(u'a model is saved')
@@ -24,6 +24,6 @@ def step_impl(context):
 
 @when(u'two save commands are sent in rapid succession')
 def step_impl(context):
-    context.sock.sendall("save\n")
-    context.sock.sendall("save\n")
+    context.sock.send("save\n")
+    context.sock.send("save\n")
 

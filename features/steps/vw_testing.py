@@ -1,7 +1,15 @@
 import socket
 from time import sleep
+from environment import start_vw
 
-@given(u'a connection to a remote vw cluster')
+
+@given(u'a simple running vw daemon')
+def step_impl(context):
+    simple_vw_start = "vw --daemon --port 26542"
+    start_vw(simple_vw_start)
+
+
+@given(u'a connection to the remote vw daemon')
 def step_impl(context):
     # parse the .ssh.config file to get the hostname
     with open('.ssh.config', 'r') as ssh_config:
@@ -17,8 +25,11 @@ def step_impl(context):
     # following the example on https://github.com/JohnLangford/vowpal_wabbit/wiki/daemon-example
     for i in xrange(20):
         context.sock.sendall('0 example0| a b c\n1 example1| x y z\n')
-        sleep(0.01)
-        context.sock.recv(2048)  # flushing
+        sleep(0.1)
+        try:
+            context.sock.recv(2048)  # flushing
+        except:
+            pass  # don't do anything if we get nothing back, that's not really a problem
 
 
 @when(u'testing data is sent')

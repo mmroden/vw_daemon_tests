@@ -35,6 +35,10 @@ VW is created as part of provisioning the Vagrantfile.  Changing the commit to w
 
     make provision
 
+Alternatively, you can call make provision by setting `VW_COMMIT_HASH` directly:
+
+    VW_COMMIT_HASH=dc6b12ecb671fa18fe2ae10363a99956d333c90d make provision
+
 Under The Hood
 --------------
 Behave is a framework for BDD.  In this case, there are several specified behaviors that the daemon mode for VW should be supporting, and this project is intended to be used as a check to ensure that a particular version of VW implements specified features properly.

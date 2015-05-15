@@ -24,9 +24,9 @@ def step_impl(context):
 def step_impl(context):
     # following the example on https://github.com/JohnLangford/vowpal_wabbit/wiki/daemon-example
     for i in xrange(20):
-        context.sock.sendall('0 example0| a b c\n1 example1| x y z\n')
-        sleep(0.1)
         try:
+            context.sock.send('0 example0| a b c\n')
+            context.sock.send('1 example1| x y z\n')
             context.sock.recv(2048)  # flushing
         except:
             pass  # don't do anything if we get nothing back, that's not really a problem

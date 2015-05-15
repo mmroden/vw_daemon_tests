@@ -4,6 +4,16 @@
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
+$before_script = <<SCRIPT
+  echo # vagrant profile script > /etc/profile.d/vagrant.sh
+  echo export VW_COMMIT_HASH="#{ENV['VW_COMMIT_HASH']}" >> /etc/profile.d/vagrant.sh
+  chmod +x /etc/profile.d/vagrant.sh
+SCRIPT
+
+$after_script = <<SCRIPT
+  rm -rf /etc/profile.d/vagrant.sh
+SCRIPT
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.network :forwarded_port, guest: 26542, host: 26542
@@ -30,10 +40,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     aws.block_device_mapping = [{ 'DeviceName' => '/dev/sda1', 'Ebs.VolumeSize' => 50 }]
   end
 
-  # It's looking like we really don't want a cluster for vw, that a beefy box should even
-  # be able to handle production traffic.  We'll have to determine if that's not actually true
-  # during staging, though.
+  # if you're reprovisioning, you have to stop any running instances of vw
+  config.vm.provision "shell", path: "stop_vw.sh"
+
+  # this will fetch the git repo and then checkout the appropriate commit specified in
+  # VW_COMMIT_HASH.
+  config.vm.provision "shell", inline: $before_script
   config.vm.provision "shell", path: "provision.sh"
+  config.vm.provision "shell", inline: $after_script
+
+  # This next line will automatically start vw on the target box.  The tests will first kill all
+  # running instances of vw if they are run, but if they are not, then the provisioned box will
+  # be ready to accept incoming information.
   config.vm.provision "shell", path: "start_vw.sh"
 
   if Vagrant.has_plugin?("vagrant-cachier")

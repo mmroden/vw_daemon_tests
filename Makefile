@@ -5,6 +5,7 @@ VIRTUALENV=virtualenv
 BEHAVE=venv/bin/behave
 BEHAVE_ENV?=
 BEHAVE_OPTS?=
+VW_COMMIT_HASH?=0b1215ca6aac7147549e5e3d5ba6650b0684d233
 
 .PHONY: all clean deps check
 
@@ -37,3 +38,6 @@ run: deps
 run_aws: deps
 	vagrant up --provider=aws
 	vagrant ssh-config > .ssh.config
+
+provision:
+	VW_COMMIT_HASH=$(VW_COMMIT_HASH) vagrant provision

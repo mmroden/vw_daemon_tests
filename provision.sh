@@ -1,5 +1,5 @@
-apt-get update
-apt-get upgrade
+apt-get update -y
+apt-get upgrade -y
 apt-get install -y build-essential software-properties-common git libboost-all-dev
 if [ ! -d "vowpal_wabbit" ]; then
     git clone git://github.com/JohnLangford/vowpal_wabbit.git

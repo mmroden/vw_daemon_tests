@@ -33,7 +33,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     aws.access_key_id = ENV['AWS_ACCESS_KEY_ID']
     aws.secret_access_key = ENV['AWS_SECRET_KEY']
     aws.keypair_name = ENV['AWS_KEY_NAME']
-    aws.security_groups = [ 'endpoint', 'vagrant-dev' ]
+    aws.security_groups = [ 'vw-daemon', 'vagrant-dev' ]
     override.ssh.username = "ubuntu"
     override.ssh.private_key_path = ENV['AWS_KEY_PATH']
     # see http://stackoverflow.com/questions/21274437/vagrant-install-chef-client-on-top-of-base-image

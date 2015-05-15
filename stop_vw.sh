@@ -1,1 +1,1 @@
-sudo killall vw
+cat /tmp/vw.pid | xargs kill

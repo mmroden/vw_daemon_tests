@@ -4,7 +4,7 @@ import os
 
 
 VAGRANT_TEST_MODEL="/vagrant/model_test.vw"
-PID_FILE="/tmp/pid"
+PID_FILE="/tmp/vw.pid"
 
 def start_vw(call_string):
     sleep(1)  # make sure previous call is cleaned up
@@ -12,7 +12,7 @@ def start_vw(call_string):
     # print ("VW start string: ", call_string)
     args = ['vagrant', 'ssh', '--', call_string]
     p =subprocess.Popen(args)
-    sleep(5)  # will get connection reset errors if vw isn't allowed to start up fully
+    sleep(10)  # will get connection reset errors if vw isn't allowed to start up fully
 
 
 def stop_vw():

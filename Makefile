@@ -5,7 +5,7 @@ VIRTUALENV=virtualenv
 BEHAVE=venv/bin/behave
 BEHAVE_ENV?=
 BEHAVE_OPTS?=
-VW_COMMIT_HASH?=0b1215ca6aac7147549e5e3d5ba6650b0684d233
+VW_COMMIT_HASH?=6c2af95b514e11e27acc89e20e4e3c6a49d23a7e
 
 .PHONY: all clean deps check
 

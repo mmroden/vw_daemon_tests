@@ -7,12 +7,14 @@ VAGRANT_TEST_MODEL="/vagrant/model_test.vw"
 PID_FILE="/tmp/vw.pid"
 
 def start_vw(call_string):
-    sleep(1)  # make sure previous call is cleaned up
-    call_string = "nohup {} --pid_file {} &".format(call_string, PID_FILE)
+    sleep(3)
+    call_string = "{} --pid_file {}".format(call_string, PID_FILE).split(' ')
     # print ("VW start string: ", call_string)
-    args = ['vagrant', 'ssh', '--', call_string]
-    p =subprocess.Popen(args)
-    sleep(10)  # will get connection reset errors if vw isn't allowed to start up fully
+    args = ['vagrant', 'ssh', '--'] + call_string
+    print ("args: ", args)
+    p = subprocess.Popen(args)
+    sleep(5)  # hope this is enough time to start up, since I have to do this blind
+    p.terminate()  # otherwise, the rest of the tests are blocked
 
 
 def stop_vw():
@@ -60,7 +62,7 @@ def before_scenario(context, scenario):
 
 
 def after_scenario(context, scenario):
-    clean_up()
+    pass
 
 
 def after_all(context):

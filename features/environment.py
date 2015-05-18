@@ -8,7 +8,7 @@ PID_FILE="/tmp/vw.pid"
 
 def start_vw(call_string):
     sleep(1)  # make sure previous call is cleaned up
-    call_string = "{} --pid_file {}".format(call_string, PID_FILE)
+    call_string = "nohup {} --pid_file {} &".format(call_string, PID_FILE)
     # print ("VW start string: ", call_string)
     args = ['vagrant', 'ssh', '--', call_string]
     p =subprocess.Popen(args)
@@ -36,7 +36,7 @@ def check_remote_file(filename):
 
 
 def remove_remote_file(filename):
-    return manipulate_remote_file("rm", filename)
+    return manipulate_remote_file("sudo rm", filename)
 
 
 def manipulate_remote_file(remote_command, remote_file):

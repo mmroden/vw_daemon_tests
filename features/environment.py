@@ -7,14 +7,24 @@ VAGRANT_TEST_MODEL="/vagrant/model_test.vw"
 PID_FILE="/tmp/vw.pid"
 
 def start_vw(call_string):
-    sleep(3)
-    call_string = "{} --pid_file {}".format(call_string, PID_FILE).split(' ')
+    # call_string = "{} --pid_file {}".format(call_string, PID_FILE)
     # print ("VW start string: ", call_string)
-    args = ['vagrant', 'ssh', '--'] + call_string
+    args = ['vagrant', 'ssh', '--command', '"{}"'.format(call_string)]
     print ("args: ", args)
-    p = subprocess.Popen(args)
-    sleep(5)  # hope this is enough time to start up, since I have to do this blind
-    p.terminate()  # otherwise, the rest of the tests are blocked
+    p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    sleep(1)
+    out = p.stdout.read(1024)
+    print ("out: ", out)
+    err = p.stderr.read(1024)
+    print ("err: ", err)
+#    while not calling_accept:
+#        out = p.stdout.read(1024)
+#        err = p.stderr.read(1024)
+#        print ("out: ", out, " err: ", err)
+#        sleep(1)
+#        if out == "calling accept":
+#            calling_accept = True
+#    p.terminate()  # otherwise, the rest of the tests are blocked
 
 
 def stop_vw():

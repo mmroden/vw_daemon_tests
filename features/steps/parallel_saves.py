@@ -4,7 +4,8 @@ import os
 
 @given(u'a simple running vw daemon that can save models')
 def step_impl(context):
-    saving_vw = "vw -f {} --save_resume --daemon --port 26542".format(VAGRANT_TEST_MODEL)
+    saving_vw = "/vagrant/scripts/start_vw_daemon_save_file.sh"  
+    # "vw -f {} --save_resume --daemon --port 26542".format(VAGRANT_TEST_MODEL)
     start_vw(saving_vw)
 
 

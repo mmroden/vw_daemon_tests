@@ -41,18 +41,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # if you're reprovisioning, you have to stop any running instances of vw
-  config.vm.provision "shell", path: "stop_vw.sh"
+  config.vm.provision "shell", path: "scripts/stop_vw.sh"
 
   # this will fetch the git repo and then checkout the appropriate commit specified in
   # VW_COMMIT_HASH.
   config.vm.provision "shell", inline: $before_script
-  config.vm.provision "shell", path: "provision.sh"
+  config.vm.provision "shell", path: "scripts/provision.sh"
   config.vm.provision "shell", inline: $after_script
 
   # This next line will automatically start vw on the target box.  The tests will first kill all
   # running instances of vw if they are run, but if they are not, then the provisioned box will
   # be ready to accept incoming information.
-  config.vm.provision "shell", path: "start_vw.sh"
+  config.vm.provision "shell", path: "scripts/start_vw.sh"
 
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.scope = :box

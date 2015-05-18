@@ -9,7 +9,7 @@ PID_FILE="/tmp/vw.pid"
 def start_vw(call_string):
     # call_string = "{} --pid_file {}".format(call_string, PID_FILE)
     # print ("VW start string: ", call_string)
-    args = ['vagrant', 'ssh', '--command', '"{}"'.format(call_string)]
+    args = ['vagrant', 'ssh', '--command', call_string]
     print ("args: ", args)
     p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     sleep(1)

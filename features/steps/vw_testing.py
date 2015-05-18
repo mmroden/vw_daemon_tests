@@ -5,7 +5,7 @@ from environment import start_vw
 
 @given(u'a simple running vw daemon')
 def step_impl(context):
-    simple_vw_start = "vw --daemon --port 26542"
+    simple_vw_start = "/vagrant/scripts/start_vw_daemon.sh"  # "vw --daemon --port 26542"
     start_vw(simple_vw_start)
 
 

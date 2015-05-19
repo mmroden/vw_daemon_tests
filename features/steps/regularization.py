@@ -28,15 +28,15 @@ def step_impl(context):
 def step_impl(context):
     with open('data/train-examples.txt') as input:
         for line in input.readlines():
-            context.sock.sendall(line)  # have to end in \n to be processed
+            context.sock.sendall(line + '\n')  # have to end in \n to be processed
             returned = context.sock.recv(1024)
 
 
 def compare_test_results(context, test_results):
-    with open('output-data.txt') as output:
+    with open('output-data.txt', 'w') as output:
         with open('data/additional-examples.txt') as input:
             for line in input.readlines():
-                context.sock.sendall(line)
+                context.sock.sendall(line + '\n')
                 output.write(context.sock.recv(1024))
     try:
         filecmp.cmp('output-data.txt', test_results)
@@ -46,9 +46,9 @@ def compare_test_results(context, test_results):
 
 @then(u'the model is identical to the previously saved non-regularized model')
 def step_impl(context):
-    compare_test_results('data/additional-examples-no-regularization.txt')
+    compare_test_results(context, 'data/additional-examples-no-regularization.txt')
 
 
 @then(u'the model is identical to the previously saved regularized model')
 def step_impl(context):
-    compare_test_results('data/additional-examples-no-regularization.txt')
+    compare_test_results(context, 'data/additional-examples-regularization.txt')

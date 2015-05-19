@@ -32,4 +32,8 @@ def step_impl(context):
 def step_impl(context):
     print ("cwd:", os.getcwd())
     assert os.path.exists("model_test.vw")
+    # first, test to see if it's stable against the daemonized output
+    assert filecmp.cmp("model_test.vw", "models/daemon-without-regularization.vw")
+    # now, check to see if it's stable against non-daemonized output
     assert filecmp.cmp("model_test.vw", "models/offline-without-regularization.vw")
+    # neither of these tests pass, and it looks like a straight byte-by-byte comparison is not legit

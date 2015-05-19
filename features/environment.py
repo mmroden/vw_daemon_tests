@@ -63,8 +63,8 @@ def manipulate_remote_file(remote_command, remote_file):
 
 def clean_up():
     stop_vw()
-#    if check_remote_file(VAGRANT_TEST_MODEL):
-#        remove_remote_file(VAGRANT_TEST_MODEL)
+    if check_remote_file(VAGRANT_TEST_MODEL):
+        remove_remote_file(VAGRANT_TEST_MODEL)
 
 
 def before_scenario(context, scenario):

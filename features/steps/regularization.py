@@ -9,6 +9,16 @@ def step_impl(context):
     start_vw("/vagrant/scripts/start_vw_daemon_non_regularized.sh")
 
 
+@given(u'a vw daemon running with regularization')
+def step_impl(context):
+    start_vw("/vagrant/scripts/start_vw_daemon_regularized.sh")
+
+
+@given(u'a saved regularized model made in offline mode')
+def step_impl(context):
+    assert os.path.exists("models/offline-with-regularization.vw")
+
+
 @given(u'a saved non-regularized model made in offline mode')
 def step_impl(context):
     assert os.path.exists("models/offline-without-regularization.vw")
@@ -30,10 +40,19 @@ def step_impl(context):
 
 @then(u'the model is identical to the previously saved non-regularized model')
 def step_impl(context):
-    print ("cwd:", os.getcwd())
     assert os.path.exists("model_test.vw")
     # first, test to see if it's stable against the daemonized output
     assert filecmp.cmp("model_test.vw", "models/daemon-without-regularization.vw")
     # now, check to see if it's stable against non-daemonized output
     assert filecmp.cmp("model_test.vw", "models/offline-without-regularization.vw")
+    # neither of these tests pass, and it looks like a straight byte-by-byte comparison is not legit
+
+
+@then(u'the model is identical to the previously saved regularized model')
+def step_impl(context):
+    assert os.path.exists("model_test.vw")
+    # first, test to see if it's stable against the daemonized output
+    assert filecmp.cmp("model_test.vw", "models/daemon-with-regularization.vw")
+    # now, check to see if it's stable against non-daemonized output
+    assert filecmp.cmp("model_test.vw", "models/offline-with-regularization.vw")
     # neither of these tests pass, and it looks like a straight byte-by-byte comparison is not legit

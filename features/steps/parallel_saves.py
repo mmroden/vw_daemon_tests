@@ -19,7 +19,7 @@ def step_impl(context):
     from time import sleep
     remote_check = check_remote_file(VAGRANT_TEST_MODEL)
     count = 0
-    while remote_check != VAGRANT_TEST_MODEL and count < 100:
+    while remote_check != VAGRANT_TEST_MODEL and count < 40:
         sleep(0.5)
         remote_check = check_remote_file(VAGRANT_TEST_MODEL)
         count = count + 1

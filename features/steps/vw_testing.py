@@ -17,6 +17,7 @@ def step_impl(context):
         ip_address = ssh_read.split('\n')[1].split(' ')[3]
         context.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         context.sock.connect((ip_address, 26542))
+        context.sock.settimeout(2)  # 2 seconds is probably pretty long
         print ('Vagrant ip address: ', ip_address)
 
 

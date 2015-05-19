@@ -63,8 +63,8 @@ def manipulate_remote_file(remote_command, remote_file):
 
 def clean_up():
     stop_vw()
-    if check_remote_file(VAGRANT_TEST_MODEL):
-        remove_remote_file(VAGRANT_TEST_MODEL)
+#    if check_remote_file(VAGRANT_TEST_MODEL):
+#        remove_remote_file(VAGRANT_TEST_MODEL)
 
 
 def before_scenario(context, scenario):
@@ -77,4 +77,4 @@ def after_scenario(context, scenario):
 
 def after_all(context):
     clean_up()
-    start_vw("/vagrant/start_vw.sh")  # so that vw is running when tests are done
+    start_vw("/vagrant/scripts/start_vw.sh")  # so that vw is running when tests are done

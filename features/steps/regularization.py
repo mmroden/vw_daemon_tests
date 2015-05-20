@@ -74,10 +74,10 @@ def compare_test_results(context, test_results):
             for line in input.readlines():
                 context.sock.send(line + '\n')
                 count = count + 1
-                if count % 1000 == 0:
+                if count % 10000 == 0:
                     write_output_lines(context.sock, output)
         write_output_lines(context.sock, output)
-    
+
     try:
         with open('output-data.txt', 'r') as output:
             with open(test_results, 'r') as canonical:
@@ -85,7 +85,7 @@ def compare_test_results(context, test_results):
                     canonical_line = canonical.readline()
                     output_split = output_line.split(' ')
                     canonical_split = canonical_line.split(' ')
-                    # print ("output: ", output_split[0], " canonical: ", canonical_split[0])
+                    print ("output: ", output_split[0], " canonical: ", canonical_split[0])
                     assert abs(float(output_split[0]) - float(canonical_split[0])) < 0.2
                     assert output_split[1] == canonical_split[1]
     finally:

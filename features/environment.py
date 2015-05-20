@@ -72,7 +72,8 @@ def before_scenario(context, scenario):
 
 
 def after_scenario(context, scenario):
-    pass
+    if hasattr(context, 'sock'):
+        context.sock.close()
 
 
 def after_all(context):

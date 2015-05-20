@@ -2,6 +2,7 @@ import gzip
 import os
 from environment import start_vw, VAGRANT_TEST_MODEL
 import filecmp
+from time import sleep
 
 
 @given(u'a vw daemon running without regularization')
@@ -27,9 +28,15 @@ def step_impl(context):
 @when(u'the regularization data set is provided')
 def step_impl(context):
     with open('data/train-examples.txt') as input:
+        count = 0
         for line in input.readlines():
-            context.sock.sendall(line + '\n')  # have to end in \n to be processed
-            returned = context.sock.recv(1024)
+            context.sock.send(line + '\n')  # have to end in \n to be processed
+            count = count + 1
+            if count % 10000 == 0:
+                results = context.sock.recv(1024000)
+    results = context.sock.recv(1024000)
+    while not results.endswith('\n'):
+        results = context.sock.recv(1024000)
 
 
 def compare_test_results(context, test_results):
@@ -37,11 +44,16 @@ def compare_test_results(context, test_results):
         with open('data/additional-examples.txt') as input:
             for line in input.readlines():
                 context.sock.sendall(line + '\n')
-                output.write(context.sock.recv(1024))
+                results = ''
+                with os.fdopen(context.sock.fileno(), 'r') as file_obj:
+                    for read_line in file_obj.readline():
+                        results = results + read_line
+                print ("results: ", results)
     try:
-        filecmp.cmp('output-data.txt', test_results)
+        assert filecmp.cmp('output-data.txt', test_results)
     finally:
-        os.remove('output-data.txt')
+        # os.remove('output-data.txt')
+        pass
 
 
 @then(u'the model is identical to the previously saved non-regularized model')

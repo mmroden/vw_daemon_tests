@@ -1,6 +1,6 @@
 from environment import stop_vw, start_vw, TEST_FILES
 from utils import (save_training_output,
-                   compare_test_results,
+                   compare_two_test_results,
                    send_data_ignore_output)
 
 
@@ -13,7 +13,7 @@ def step_impl(context):
 
 @when(u'more training data is provided and results are saved to a file')
 def step_impl(context):
-    save_training_output(context, current_test_results=TEST_FILES[0])  # because TEST_FILES[0] is used in utils
+    save_training_output(context, current_test_results=TEST_FILES[0])
 
 
 @when(u'the vw daemon is killed')
@@ -26,8 +26,11 @@ def step_impl(context):
     send_data_ignore_output(context)
 
 
+@then(u'more training data is run and saved to a second file')
+def step_impl(context):
+    save_training_output(context, current_test_results=TEST_FILES[1])
+
+
 @then(u'there is no difference between the saved outputs')
 def step_impl(context):
-    compare_test_results(context,
-                         canonical_test_results=TEST_FILES[0],
-                         current_test_results=TEST_FILES[1])
+    compare_two_test_results(TEST_FILES[0], TEST_FILES[1])

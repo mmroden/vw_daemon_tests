@@ -33,9 +33,9 @@ def write_output_lines(socket, open_file):
 
 def send_data_ignore_output(context,
                             training_file='data/train-examples.txt'):
-    with open(training_file) as input:
+    with open(training_file) as input_data:
         count = 0
-        for line in input.readlines():
+        for line in input_data.readlines():
             context.sock.send(line + '\n')  # have to end in \n to be processed
             count += 1
             if count % 10000 == 0:
@@ -57,14 +57,10 @@ def save_training_output(context,
         write_output_lines(context.sock, output)
 
 
-def compare_test_results(context,
-                         canonical_test_results,
-                         current_test_results=TEST_FILES[0],
-                         training_data='data/additional-examples.txt'):
-    save_training_output(context, current_test_results, training_data)
+def compare_two_test_results(result1, result2):
     try:
-        with open(current_test_results, 'r') as output:
-            with open(canonical_test_results, 'r') as canonical:
+        with open(result2, 'r') as output:
+            with open(result1, 'r') as canonical:
                 for output_line in output.readlines():
                     canonical_line = canonical.readline()
                     output_split = output_line.split(' ')

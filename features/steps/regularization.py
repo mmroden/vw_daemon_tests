@@ -1,6 +1,6 @@
-from utils import send_data_ignore_output, compare_test_results
+from utils import send_data_ignore_output, compare_two_test_results, save_training_output
 import os
-from environment import start_vw, VAGRANT_TEST_MODEL
+from environment import start_vw, VAGRANT_TEST_MODEL, TEST_FILES
 
 
 @given(u'a vw daemon running without regularization')
@@ -30,9 +30,11 @@ def step_impl(context):
 
 @then(u'the model is identical to the previously saved non-regularized model')
 def step_impl(context):
-    compare_test_results(context, 'data/additional-examples-no-regularization.txt')
+    save_training_output(context, current_test_results=TEST_FILES[0])
+    compare_two_test_results(TEST_FILES[0], 'data/additional-examples-no-regularization.txt')
 
 
 @then(u'the model is identical to the previously saved regularized model')
 def step_impl(context):
-    compare_test_results(context, 'data/additional-examples-regularization.txt')
+    save_training_output(context, current_test_results=TEST_FILES[0])
+    compare_two_test_results(TEST_FILES[0], 'data/additional-examples-regularization.txt')

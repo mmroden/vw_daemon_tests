@@ -1,5 +1,4 @@
 from environment import start_vw, VAGRANT_TEST_MODEL, check_remote_file
-import os
 
 
 @given(u'a simple running vw daemon that can save models')
@@ -22,7 +21,7 @@ def step_impl(context):
     while remote_check != VAGRANT_TEST_MODEL and count < 40:
         sleep(0.5)
         remote_check = check_remote_file(VAGRANT_TEST_MODEL)
-        count = count + 1
+        count += 1
     print (remote_check)
     assert remote_check == VAGRANT_TEST_MODEL
     

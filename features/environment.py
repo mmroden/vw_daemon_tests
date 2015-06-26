@@ -1,6 +1,5 @@
 import subprocess
 from time import sleep
-import os
 
 
 VAGRANT_TEST_MODEL="/vagrant/model_test.vw"

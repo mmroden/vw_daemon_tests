@@ -13,7 +13,7 @@ def step_impl(context):
 
 @when(u'more training data is provided and results are saved to a file')
 def step_impl(context):
-    save_training_output(context, TEST_FILES[1])  # because TEST_FILES[0] is used in utils
+    save_training_output(context, current_test_results=TEST_FILES[0])  # because TEST_FILES[0] is used in utils
 
 
 @when(u'the vw daemon is killed')
@@ -28,4 +28,6 @@ def step_impl(context):
 
 @then(u'there is no difference between the saved outputs')
 def step_impl(context):
-    compare_test_results(context, TEST_FILES[1])
+    compare_test_results(context,
+                         canonical_test_results=TEST_FILES[0],
+                         current_test_results=TEST_FILES[1])

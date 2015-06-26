@@ -1,4 +1,4 @@
-from environment import stop_vw
+from environment import stop_vw, start_vw
 from utils import (save_training_output,
                    compare_test_results,
                    send_data_ignore_output)

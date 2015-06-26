@@ -1,3 +1,6 @@
+from environment import TEST_FILES
+
+
 def read_everything(socket):
     old_timeout = socket.gettimeout()
     socket.settimeout(0.1)
@@ -41,7 +44,7 @@ def send_data_ignore_output(context,
 
 
 def save_training_output(context,
-                         current_test_results='output-data.txt',
+                         current_test_results=TEST_FILES[0],
                          training_data='data/additional-examples.txt'):
     with open(current_test_results, 'w') as output:
         with open(training_data) as input:
@@ -56,7 +59,7 @@ def save_training_output(context,
 
 def compare_test_results(context,
                          canonical_test_results,
-                         current_test_results='output-data.txt',
+                         current_test_results=TEST_FILES[0],
                          training_data='data/additional-examples.txt'):
     save_training_output(context, current_test_results, training_data)
     try:

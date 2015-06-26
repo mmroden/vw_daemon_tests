@@ -1,9 +1,12 @@
 import subprocess
 from time import sleep
+import os
 
 
 VAGRANT_TEST_MODEL="/vagrant/model_test.vw"
 PID_FILE="/tmp/vw.pid"
+TEST_FILES = "output-data.txt", "output-data-1.txt"
+
 
 def start_vw(call_string):
     # call_string = "{} --pid_file {}".format(call_string, PID_FILE)
@@ -16,14 +19,6 @@ def start_vw(call_string):
     print ("out: ", out)
     err = p.stderr.read(1024)
     print ("err: ", err)
-#    while not calling_accept:
-#        out = p.stdout.read(1024)
-#        err = p.stderr.read(1024)
-#        print ("out: ", out, " err: ", err)
-#        sleep(1)
-#        if out == "calling accept":
-#            calling_accept = True
-#    p.terminate()  # otherwise, the rest of the tests are blocked
 
 
 def stop_vw():
@@ -64,6 +59,9 @@ def clean_up():
     stop_vw()
     if check_remote_file(VAGRANT_TEST_MODEL):
         remove_remote_file(VAGRANT_TEST_MODEL)
+    for file in TEST_FILES:
+        if os.path.exists(file):
+            os.remove(file)
 
 
 def before_scenario(context, scenario):
@@ -73,6 +71,7 @@ def before_scenario(context, scenario):
 def after_scenario(context, scenario):
     if hasattr(context, 'sock'):
         context.sock.close()
+
 
 
 def after_all(context):

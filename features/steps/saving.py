@@ -1,21 +1,19 @@
-from environment import stop_vw, start_vw
+from environment import stop_vw, start_vw, TEST_FILES
 from utils import (save_training_output,
                    compare_test_results,
                    send_data_ignore_output)
-import os
 
 
 @given(u'a vw daemon running that has no decay learning rate')
 def step_impl(context):
+    if hasattr(context, 'sock'):
+        context.sock.close()  # make sure there aren't any lying around, open
     start_vw("/vagrant/scripts/start_vw_daemon_save_broken.sh")
 
 
 @when(u'more training data is provided and results are saved to a file')
 def step_impl(context):
-    context.output_file_1 = "output-data-1.txt"
-    if os.path.exists(context.output_file_1):
-        os.remove(context.output_file_1)
-    save_training_output(context, context.output_file_1)
+    save_training_output(context, TEST_FILES[1])  # because TEST_FILES[0] is used in utils
 
 
 @when(u'the vw daemon is killed')
@@ -30,4 +28,4 @@ def step_impl(context):
 
 @then(u'there is no difference between the saved outputs')
 def step_impl(context):
-    compare_test_results(context, context.output_file_1)
+    compare_test_results(context, TEST_FILES[1])

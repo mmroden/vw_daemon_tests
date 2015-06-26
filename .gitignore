@@ -2,3 +2,5 @@ venv/
 .vagrant/
 *#
 .ssh.config
+.idea
+*.py[cod]

@@ -4,7 +4,7 @@ REQUIREMENTS?=$(CURDIR)/requirements.txt
 VIRTUALENV=virtualenv
 BEHAVE=venv/bin/behave
 BEHAVE_ENV?=
-BEHAVE_OPTS?=
+BEHAVE_OPTS?=-w
 VW_COMMIT_HASH?=6c2af95b514e11e27acc89e20e4e3c6a49d23a7e
 
 .PHONY: all clean deps check

@@ -33,7 +33,7 @@ def write_output_lines(socket, open_file):
 
 def send_data_ignore_output(context,
                             training_file='data/train-examples.txt'):
-    with open(training_file) as input_data:
+    with open(training_file, 'r') as input_data:
         count = 0
         for line in input_data.readlines():
             context.sock.send(line + '\n')  # have to end in \n to be processed
@@ -58,16 +58,12 @@ def save_training_output(context,
 
 
 def compare_two_test_results(result1, result2):
-    try:
-        with open(result2, 'r') as output:
-            with open(result1, 'r') as canonical:
-                for output_line in output.readlines():
-                    canonical_line = canonical.readline()
-                    output_split = output_line.split(' ')
-                    canonical_split = canonical_line.split(' ')
-                    print ("output: ", output_split[0], " canonical: ", canonical_split[0])
-                    assert abs(float(output_split[0]) - float(canonical_split[0])) < 0.001
-                    assert output_split[1] == canonical_split[1]
-    finally:
-        # os.remove('output-data.txt')
-        pass
+    with open(result2, 'r') as output:
+        with open(result1, 'r') as canonical:
+            for output_line in output.readlines():
+                canonical_line = canonical.readline()
+                output_split = output_line.split(' ')
+                canonical_split = canonical_line.split(' ')
+                print ("output: ", output_split[0], " canonical: ", canonical_split[0])
+                assert abs(float(output_split[0]) - float(canonical_split[0])) < 0.001
+                assert output_split[1] == canonical_split[1]
